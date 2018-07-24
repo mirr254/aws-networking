@@ -9,7 +9,7 @@ resource "aws_vpc" "default" {
 }
 
 #define the public subnet
-resource "aws_subnet" "10.0.1.0_public_sbnt" {
+resource "aws_subnet" "10_0_1_0_public_sbnt" {
   vpc_id            = "${aws_vpc.default.id}"
   cidr_block        = "${var.public_subnet_cidr}"
   availability_zone = "us-east-1a"
@@ -20,7 +20,7 @@ resource "aws_subnet" "10.0.1.0_public_sbnt" {
 }
 
 #define the private subnet
-resource "aws_subnet" "10.0.2.0_private_sbnt" {
+resource "aws_subnet" "10_0_2_0_private_sbnt" {
   vpc_id            = "${aws_vpc.default.id}"
   cidr_block        = "${var.private_subnet_cidr}"
   availability_zone = "us-east-1b"
@@ -59,7 +59,7 @@ resource "aws_route_table" "web_public_RTB" {
 
 # assign the route table to the public subnet
 resource "aws_route_table_association" "web_public_RTB" {
-  subnet_id      = "${aws_subnet.10.0.1.0_public_sbnt.id}"
+  subnet_id      = "${aws_subnet.10_0_1_0_public_sbnt.id}"
   route_table_id = "${aws_route_table.web_public_RTB.id}"
 }
 

@@ -1,13 +1,13 @@
 # This file contains environment specific configuration like region name, CIDR blocks, and AWS credentials
 
 variable "aws_region" {
-  description = " Region for the VPC"
-  default     = " us-east-1"
+  description = "Region for the VPC"
+  default     = "us-east-1"
 }
 
 variable "vpc_cidr" {
-  description = " CIDR block for the VPC"
-  default     = " 10.0.0.0/16"
+  description = "CIDR block for the VPC"
+  default     = "10.0.0.0/16"
 }
 
 variable "public_subnet_cidr" {
@@ -27,5 +27,13 @@ variable "ami" {
 
 variable "key_path" {
   description = "SSH Public Key path"
-  default     = "/home/core/.ssh/id_rsa.pub"
+  default     = "/Users/shammir/.ssh/kungu_key_pair.pem"
+}
+
+variable "shared_credentials_file" {
+  default = "/Users/shammir/.aws/credentials"
+}
+
+variable "profile" {
+  default = "terraform"
 }
