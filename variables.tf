@@ -5,6 +5,21 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
+variable "availability_zone_a" {
+  description = "Front end availability zone B"
+  default     = "us-east-1a"
+}
+
+variable "instance_type" {
+  description = "describe which instance type to create"
+  default     = "t2.micro"
+}
+
+variable "availability_zone_b" {
+  description = "Front end availability zone B"
+  default     = "us-east-1b"
+}
+
 variable "vpc_cidr" {
   description = "CIDR block for the VPC"
   default     = "10.0.0.0/16"

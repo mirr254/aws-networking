@@ -1,9 +1,9 @@
 data "aws_ami_ids" "frontend_ami" {
-  owners = ["766615329279"]
+  owners = ["766615329279"] #owners of the created images. 
 
   filter {
     name   = "name"        #filter by name of the AMI 
-    values = ["Frontend*"]
+    values = ["Frontend*"] #filter by name starting with frontend and any other character after that
   }
 }
 
