@@ -65,7 +65,7 @@ resource "aws_route_table_association" "web_public_RTB" {
 
 #create a security group for each subnet
 # public subnet security group
-resource "aws_security_group" "sg_public_sbnt" {
+resource "aws_security_group" "sg_web_server" {
   name        = "Public_Sbnt_SG"
   description = " Allow all HTTP/HTTPS and SSH connection"
 
@@ -74,5 +74,66 @@ resource "aws_security_group" "sg_public_sbnt" {
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # https 
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  vpc_id = "${aws_vpc.default.id}"
+
+  tags {
+    Name = "Web Server SG"
+  }
+}
+
+#Define a security group for the private subnet
+resource "aws_security_group" "sg_api_server" {
+  name        = "Private sbnt SG"
+  description = "This will allow traffic from the public subnet "
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["${var.public_subnet_cidr}"]
+  }
+
+  #allow ssh 
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["${var.public_subnet_cidr}"]
+  }
+  #allow ping 
+  ingress {
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["${var.public_subnet_cidr}"]
+  }
+  # allow postgres to connect to this sg from public subnet
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["${var.public_subnet_cidr}"]
+  }
+  vpc_id = "${aws_vpc.default.id}"
+  tags {
+    Name = "Api server SG"
   }
 }
