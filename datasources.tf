@@ -1,26 +1,30 @@
-data "aws_ami_ids" "frontend_ami" {
-  owners = ["766615329279"] #owners of the created images. 
-
+data "aws_ami" "frontend_ami" {
   filter {
     name   = "name"        #filter by name of the AMI 
     values = ["Frontend*"] #filter by name starting with frontend and any other character after that
   }
+
+  most_recent = true
 }
 
-data "aws_ami_ids" "api_ami" {
-  owners = ["766615329279"]
+# data "aws_ami" "api_ami" {
+#   most_recent = true
 
-  filter {
-    name   = "name"
-    values = ["API*"]
-  }
-}
 
-data "aws_ami_ids" "db_server_ami" {
-  owners = ["766615329279"]
+#   filter {
+#     name   = "name"
+#     values = ["API*"]
+#   }
+# }
 
-  filter = {
-    name   = "name"
-    values = ["db_server*"]
-  }
-}
+
+# data "aws_ami" "db_server_ami" {
+#   most_recent = true
+
+
+#   filter = {
+#     name   = "name"
+#     values = ["db_server*"]
+#   }
+# }
+

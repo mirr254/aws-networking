@@ -12,7 +12,7 @@ resource "aws_vpc" "default" {
 resource "aws_subnet" "10_0_1_0_public_sbnt" {
   vpc_id            = "${aws_vpc.default.id}"
   cidr_block        = "${var.public_subnet_cidr}"
-  availability_zone = "us-east-1a"
+  availability_zone = "us-east-2c"
 
   tags {
     Name = " Public subnet "
@@ -23,7 +23,7 @@ resource "aws_subnet" "10_0_1_0_public_sbnt" {
 resource "aws_subnet" "10_0_2_0_private_sbnt" {
   vpc_id            = "${aws_vpc.default.id}"
   cidr_block        = "${var.private_subnet_cidr}"
-  availability_zone = "us-east-1b"
+  availability_zone = "us-east-2b"
 
   tags {
     Name = " Private subnet for db and API"

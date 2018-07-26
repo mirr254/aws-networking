@@ -2,22 +2,22 @@
 
 variable "aws_region" {
   description = "Region for the VPC"
-  default     = "us-east-1"
+  default     = "us-east-2"
 }
 
 variable "availability_zone_a" {
   description = "Front end availability zone B"
-  default     = "us-east-1a"
+  default     = "us-east-2c"
+}
+
+variable "availability_zone_b" {
+  description = "Front end availability zone B"
+  default     = "us-east-2b"
 }
 
 variable "instance_type" {
   description = "describe which instance type to create"
   default     = "t2.micro"
-}
-
-variable "availability_zone_b" {
-  description = "Front end availability zone B"
-  default     = "us-east-1b"
 }
 
 variable "vpc_cidr" {
@@ -37,12 +37,7 @@ variable "private_subnet_cidr" {
 
 variable "ami" {
   description = "Ubuntu 16.0.4 server ami"
-  default     = "ami-a9a79fcc"
-}
-
-variable "key_path" {
-  description = "SSH Public Key path"
-  default     = "/Users/shammir/.ssh/kungu_key_pair.pem"
+  default     = "ami-5e8bb23b"
 }
 
 variable "shared_credentials_file" {
@@ -51,4 +46,8 @@ variable "shared_credentials_file" {
 
 variable "profile" {
   default = "terraform"
+}
+
+variable "ssh_key" {
+  default = "new-cp3-api-key-pair"
 }
