@@ -19,9 +19,18 @@ resource "aws_subnet" "10_0_1_0_public_sbnt" {
   }
 }
 
-#define the private subnet
-resource "aws_subnet" "10_0_2_0_private_sbnt" {
+resource "aws_subnet" "10_0_3_public_sbnt2" {
   vpc_id            = "${aws_vpc.default.id}"
+  availability_zone = "us-east-2b"
+  cidr_block        = "${var.public_subnet_2_cidr}"
+
+  tags {
+    Name = "Public subnet 2"
+  }
+}
+
+resource "aws_subnet" "10_0_2_0_private_sbnt" {
+  vpc_id            = "${aws_vpc.default.id}"      #define the private subnet
   cidr_block        = "${var.private_subnet_cidr}"
   availability_zone = "us-east-2b"
 
