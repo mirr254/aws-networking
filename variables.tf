@@ -56,3 +56,8 @@ variable "profile" {
 variable "ssh_key" {
   default = "new-cp3-api-key-pair"
 }
+
+variable "listener_arn" {
+  type    = "string"
+  default = "frontend-lb-listener"
+}

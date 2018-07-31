@@ -78,6 +78,13 @@ resource "aws_security_group" "sg_web_server" {
   name        = "Public_Sbnt_SG"
   description = " Allow all HTTP/HTTPS and SSH connection"
 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+  }
+
   ingress {
     from_port   = 80
     to_port     = 80
@@ -107,10 +114,35 @@ resource "aws_security_group" "sg_web_server" {
   }
 }
 
-#Define a security group for the private subnet
+resource "aws_security_group" "load_balancer_SG" {
+  name        = "Frontend load Balancer"
+  description = "Security rules for the internet facing load balancer"
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+  }
+}
+
 resource "aws_security_group" "sg_api_server" {
-  name        = "Private sbnt SG"
+  name        = "Private sbnt SG"                                 #Define a security group for the private subnet
   description = "This will allow traffic from the public subnet "
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+  }
 
   ingress {
     from_port   = 80
