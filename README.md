@@ -45,7 +45,7 @@ The API server is hosted in private subnet and the it can only be communicated t
 
 The frontend application is getting and supplying data from/to the API server.
 
-# Instructions for use.
+# Instructions.
 
 - installing terraform.   
 Find the [appropriate package](https://www.terraform.io/downloads.html) for your system and download it.
