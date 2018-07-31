@@ -1,7 +1,7 @@
 resource "aws_lb" "frontend-load-balancer" {
   name               = "frontend-load-balancer"
   load_balancer_type = "application"
-  security_groups    = ["${aws_security_group.sg_web_server.id}"]
+  security_groups    = ["${aws_security_group.load_balancer_SG.id}"]
   subnets            = ["${aws_subnet.10_0_1_0_public_sbnt.id}", "${aws_subnet.10_0_3_public_sbnt2.id}"]
 }
 

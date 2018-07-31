@@ -1,18 +1,18 @@
 #aws_vpc as type and default as the name 
 resource "aws_vpc" "default" {
-  cidr_block           = "${var.vpc_cidr}"
-  enable_dns_hostnames = true
+  cidr_block           = "${var.vpc_cidr}" #cidr block for the vpc
+  enable_dns_hostnames = true              #) A boolean flag to enable/disable DNS hostnames in the VPC.
 
   tags {
-    Name = "DevOps VPC"
+    Name = "DevOps VPC" #tags to assign the vpc
   }
 }
 
 #define the public subnet
 resource "aws_subnet" "10_0_1_0_public_sbnt" {
-  vpc_id            = "${aws_vpc.default.id}"
+  vpc_id            = "${aws_vpc.default.id}"     #vpc to hold the subnet
   cidr_block        = "${var.public_subnet_cidr}"
-  availability_zone = "us-east-2c"
+  availability_zone = "us-east-2c"                #availability zone where the subnet will reside
 
   tags {
     Name = " Public subnet "
@@ -78,6 +78,7 @@ resource "aws_security_group" "sg_web_server" {
   name        = "Public_Sbnt_SG"
   description = " Allow all HTTP/HTTPS and SSH connection"
 
+  #allow all outbound traffic to the internet
   egress {
     from_port   = 0
     to_port     = 0
@@ -85,6 +86,7 @@ resource "aws_security_group" "sg_web_server" {
     protocol    = "-1"
   }
 
+  #allow tcp traffic on port 80 from everywhere
   ingress {
     from_port   = 80
     to_port     = 80
@@ -92,7 +94,7 @@ resource "aws_security_group" "sg_web_server" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # https 
+  # https traffic allowed from anywhere
   ingress {
     from_port   = 443
     to_port     = 443
@@ -100,6 +102,7 @@ resource "aws_security_group" "sg_web_server" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  #ssh connection can be done from anywhere. May consider changing this for security reasons
   ingress {
     from_port   = 22
     to_port     = 22
@@ -107,13 +110,14 @@ resource "aws_security_group" "sg_web_server" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  vpc_id = "${aws_vpc.default.id}"
+  vpc_id = "${aws_vpc.default.id}" #which vpc this sg is contained in
 
   tags {
     Name = "Web Server SG"
   }
 }
 
+#security group for the load balancer
 resource "aws_security_group" "load_balancer_SG" {
   name        = "Frontend load Balancer"
   description = "Security rules for the internet facing load balancer"
@@ -125,6 +129,7 @@ resource "aws_security_group" "load_balancer_SG" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  #allow all outbound connections to everywhere and through any port
   egress {
     from_port   = 0
     to_port     = 0
@@ -137,6 +142,7 @@ resource "aws_security_group" "sg_api_server" {
   name        = "Private sbnt SG"                                 #Define a security group for the private subnet
   description = "This will allow traffic from the public subnet "
 
+  #allow all outbound connections to everywhere and through any port
   egress {
     from_port   = 0
     to_port     = 0
@@ -144,6 +150,7 @@ resource "aws_security_group" "sg_api_server" {
     protocol    = "-1"
   }
 
+  #allow inbound connections from the public subnet to connect to instances in this SG through port 80
   ingress {
     from_port   = 80
     to_port     = 80
@@ -151,7 +158,7 @@ resource "aws_security_group" "sg_api_server" {
     cidr_blocks = ["${var.public_subnet_cidr}"]
   }
 
-  #allow ssh 
+  #allow ssh connection from the public subnet to the private instance server
 
   ingress {
     from_port   = 22
